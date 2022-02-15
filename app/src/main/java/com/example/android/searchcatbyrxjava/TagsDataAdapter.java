@@ -1,6 +1,8 @@
 package com.example.android.searchcatbyrxjava;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,21 +11,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class TagsDataAdapter extends RecyclerView.Adapter<ViewHolder> {
-
     // creating a variable for array list and context.
-    private ArrayList<TagsDataModal> tagsDataModalArrayList;
+    private ArrayList<String> tagsArrayList;
 
     // creating a constructor for our variables.
-    public TagsDataAdapter(ArrayList<TagsDataModal> tagsDataModalArrayList) {
-        this.tagsDataModalArrayList = tagsDataModalArrayList;
+    public TagsDataAdapter(Context context, ArrayList<String> tagsArrayList) {
+        this.tagsArrayList = tagsArrayList;
     }
 
     // method for filtering our recyclerview items.
     @SuppressLint("NotifyDataSetChanged")
-    public void filterList(ArrayList<TagsDataModal> filterllist) {
+    public void filterList(ArrayList<String> filterList) {
         // below line is to add our filtered
         // list in our course array list.
-        tagsDataModalArrayList = filterllist;
+        tagsArrayList = filterList;
         // below line is to notify our adapter
         // as change in recycler view data.
         notifyDataSetChanged();
@@ -40,14 +41,22 @@ public class TagsDataAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // setting data to our views of recycler view.
-        TagsDataModal modal = tagsDataModalArrayList.get(position);
-        holder.catTags.setText(modal.getCatsTags());
+        String tagName = tagsArrayList.get(position);
+        holder.catTags.setText("Tag: " + tagName);
+
+/*        holder.parent_layout.setOnClickListener(view -> {
+            Intent intent = new Intent(context, CatList.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);  //Important
+            intent.putExtra("name", tagName);
+            context.startActivity(intent);
+        });*/
+
     }
 
     @Override
     public int getItemCount() {
         // returning the size of array list.
-        return tagsDataModalArrayList.size();
+        return tagsArrayList.size();
     }
 
 }

@@ -1,6 +1,11 @@
 package com.example.android.searchcatbyrxjava;
 
+import static com.example.android.searchcatbyrxjava.TagsRepository.tagsService;
+import static com.uber.autodispose.AutoDispose.autoDisposable;
+import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -10,7 +15,9 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
-
+import java.util.List;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 public class MainActivity extends AppCompatActivity {
     // creating variables for
     // our ui components.
@@ -19,19 +26,28 @@ public class MainActivity extends AppCompatActivity {
     // variable for our adapter
     // class and array list
     private TagsDataAdapter adapter;
-    private ArrayList<TagsDataModal> tagsDataModalArrayList;
+    private ArrayList<String> tagsArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // initializing our variables.
-        recyclerList = findViewById(R.id.recyclerList);
+        setRecyclerView();
 
-        // calling method to
-        // build recycler view.
-        buildRecyclerView();
+        bindData();
+    }
+
+    private void setRecyclerView() {
+        recyclerList = findViewById(R.id.recyclerList);
+        recyclerList.setHasFixedSize(true);
+        recyclerList.setLayoutManager(new LinearLayoutManager(this));
+
+        // below line we are creating a new array list
+        tagsArrayList = new ArrayList<>();
+
+        // initializing our adapter class.
+        adapter = new TagsDataAdapter(getApplicationContext(), tagsArrayList);
     }
 
     // calling on create option menu
@@ -70,52 +86,42 @@ public class MainActivity extends AppCompatActivity {
 
     private void filter(String text) {
         // creating a new array list to filter our data.
-        ArrayList<TagsDataModal> filteredlist = new ArrayList<>();
+        ArrayList<String> filterList = new ArrayList<>();
 
         // running a for loop to compare elements.
-        for (TagsDataModal item : tagsDataModalArrayList) {
+        for (String item : tagsArrayList) {
             // checking if the entered string matched with any item of our recycler view.
-            if (item.getCatsTags().toLowerCase().contains(text.toLowerCase())) {
+            if (item.toLowerCase().contains(text.toLowerCase())) {
                 // if the item is matched we are
                 // adding it to our filtered list.
-                filteredlist.add(item);
+                filterList.add(item);
             }
         }
-        if (filteredlist.isEmpty()) {
+        if (filterList.isEmpty()) {
             // if no item is added in filtered list we are
             // displaying a toast message as no data found.
             Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show();
         } else {
             // at last we are passing that filtered
             // list to our adapter class.
-            adapter.filterList(filteredlist);
+            adapter.filterList(filterList);
         }
     }
 
-    private void buildRecyclerView() {
-        // below line we are creating a new array list
-        tagsDataModalArrayList = new ArrayList<>();
+    private void bindData() {
+        tagsService("tags")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this)))
+                .subscribe(this::onSuccess, this::onError);
+    }
 
-        // below line is to add data to our array list.
-        tagsDataModalArrayList.add(new TagsDataModal("cute"));
-        tagsDataModalArrayList.add(new TagsDataModal("lazy"));
-        tagsDataModalArrayList.add(new TagsDataModal("sleepy"));
-        tagsDataModalArrayList.add(new TagsDataModal("fat"));
-        tagsDataModalArrayList.add(new TagsDataModal("angry"));
-
-        // initializing our adapter class.
-        adapter = new TagsDataAdapter(tagsDataModalArrayList);
-
-        // adding layout manager to our recycler view.
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        recyclerList.setHasFixedSize(true);
-
-        // setting layout manager
-        // to our recycler view.
-        recyclerList.setLayoutManager(manager);
-
-        // setting adapter to
-        // our recycler view.
+    private void onSuccess(List<String> data) {
+        tagsArrayList.addAll(data);
         recyclerList.setAdapter(adapter);
+    }
+
+    private void onError(Throwable throwable) {
+        Log.d("TAG", "Failed! Response = " + throwable);
     }
 }
