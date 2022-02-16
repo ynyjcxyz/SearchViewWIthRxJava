@@ -19,6 +19,6 @@ public class SearchUtil {
               filterList.add(item);
           }
       }
-      return filterList;
+    return filterList;
   }
 }

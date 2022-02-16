@@ -17,6 +17,8 @@ public class CatsInfoAdapter extends RecyclerView.Adapter<ViewHolderForCatsInfo>
     public CatsInfoAdapter(Context context, ArrayList<CatsInfo> catsInfoArrayList) {
         this.context = context;
         this.catsInfoArrayList = catsInfoArrayList;
+        CatsInfoAdapter catsInfoAdapter = this;
+
     }
 
     @NonNull
