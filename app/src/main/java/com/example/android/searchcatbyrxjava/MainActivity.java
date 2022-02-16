@@ -4,6 +4,7 @@ import static com.example.android.searchcatbyrxjava.TagsRepository.tagsService;
 import static com.uber.autodispose.AutoDispose.autoDisposable;
 import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -43,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
         recyclerList = findViewById(R.id.recyclerList);
         recyclerList.setHasFixedSize(true);
         recyclerList.setLayoutManager(new LinearLayoutManager(this));
+        AppCompatActivity context = this;
+        adapter = new TagsDataAdapter(context);
+        adapter.setDataList(tagsArrayList);
     }
 
     // calling on create option menu
@@ -104,10 +108,7 @@ public class MainActivity extends AppCompatActivity {
         // below line we are creating a new array list
         tagsArrayList = new ArrayList<>();
         tagsArrayList.addAll(data);
-        // initializing our adapter class.
-        adapter = new TagsDataAdapter(getApplicationContext());
         adapter.setDataList(tagsArrayList);
-        recyclerList.setAdapter(adapter);
     }
 
     private void onError(Throwable throwable) {
