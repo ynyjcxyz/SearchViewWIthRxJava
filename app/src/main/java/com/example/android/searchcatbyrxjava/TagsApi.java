@@ -7,6 +7,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 
 public interface TagsApi {
+    //https://cataas.com/api/tags
     String BASE_URL = "https://cataas.com/";
 
     @GET("api/{tags}")
