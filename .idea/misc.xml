@@ -3,8 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android_Interface/SearchCatByRxJava/app/src/main/res/drawable/no_data.xml" value="0.1915" />
         <entry key="..\:/Android_Interface/SearchCatByRxJava/app/src/main/res/layout/activity_main.xml" value="0.49829351535836175" />
+        <entry key="..\:/Android_Interface/SearchCatByRxJava/app/src/main/res/layout/cat_list.xml" value="0.328125" />
+        <entry key="..\:/Android_Interface/SearchCatByRxJava/app/src/main/res/layout/cat_list_view.xml" value="0.27988855116514694" />
         <entry key="..\:/Android_Interface/SearchCatByRxJava/app/src/main/res/layout/cat_tags_item.xml" value="0.3029891304347826" />
+        <entry key="..\:/Android_Interface/SearchCatByRxJava/app/src/main/res/layout/cats_detail.xml" value="0.26222826086956524" />
         <entry key="..\:/Android_Interface/SearchCatByRxJava/app/src/main/res/layout/course_rv_item.xml" value="0.5186500888099467" />
         <entry key="..\:/Android_Interface/SearchCatByRxJava/app/src/main/res/menu/search_menu.xml" value="0.33" />
       </map>

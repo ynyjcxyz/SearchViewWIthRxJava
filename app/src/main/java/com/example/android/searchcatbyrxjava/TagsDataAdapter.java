@@ -8,14 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 
-public class TagsDataAdapter extends RecyclerView.Adapter<ViewHolder> {
+public class TagsDataAdapter extends RecyclerView.Adapter<ViewHolderForTags> {
+    private Context context;
     // creating a variable for array list and context.
     private ArrayList<String> tagsArrayList;
 
     // creating a constructor for our variables.
     public TagsDataAdapter(Context context, ArrayList<String> tagsArrayList) {
+        this.context = context;
         this.tagsArrayList = tagsArrayList;
     }
 
@@ -32,24 +35,24 @@ public class TagsDataAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolderForTags onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // below line is to inflate our layout.
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cat_tags_item, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolderForTags(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolderForTags holder, int position) {
         // setting data to our views of recycler view.
         String tagName = tagsArrayList.get(position);
         holder.catTags.setText("Tag: " + tagName);
 
-/*        holder.parent_layout.setOnClickListener(view -> {
-            Intent intent = new Intent(context, CatList.class);
+        holder.parent_layout.setOnClickListener(view -> {
+            Intent intent = new Intent(context, CatListView.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);  //Important
-            intent.putExtra("name", tagName);
+            intent.putExtra("tag", tagName);
             context.startActivity(intent);
-        });*/
+        });
 
     }
 

@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.List;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -42,12 +43,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerList = findViewById(R.id.recyclerList);
         recyclerList.setHasFixedSize(true);
         recyclerList.setLayoutManager(new LinearLayoutManager(this));
-
-        // below line we are creating a new array list
-        tagsArrayList = new ArrayList<>();
-
-        // initializing our adapter class.
-        adapter = new TagsDataAdapter(getApplicationContext(), tagsArrayList);
     }
 
     // calling on create option menu
@@ -117,7 +112,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onSuccess(List<String> data) {
+        // below line we are creating a new array list
+        tagsArrayList = new ArrayList<>();
         tagsArrayList.addAll(data);
+        // initializing our adapter class.
+        adapter = new TagsDataAdapter(getApplicationContext(), tagsArrayList);
         recyclerList.setAdapter(adapter);
     }
 
