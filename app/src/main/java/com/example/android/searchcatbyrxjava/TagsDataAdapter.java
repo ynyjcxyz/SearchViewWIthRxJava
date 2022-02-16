@@ -12,19 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class TagsDataAdapter extends RecyclerView.Adapter<ViewHolderForTags> {
-    private Context context;
+    private final Context context;
     // creating a variable for array list and context.
     private ArrayList<String> tagsArrayList;
 
     // creating a constructor for our variables.
-    public TagsDataAdapter(Context context, ArrayList<String> tagsArrayList) {
+    public TagsDataAdapter(Context context) {
         this.context = context;
-        this.tagsArrayList = tagsArrayList;
     }
 
     // method for filtering our recyclerview items.
     @SuppressLint("NotifyDataSetChanged")
-    public void filterList(ArrayList<String> filterList) {
+    public void setDataList(ArrayList<String> filterList) {
         // below line is to add our filtered
         // list in our course array list.
         tagsArrayList = filterList;

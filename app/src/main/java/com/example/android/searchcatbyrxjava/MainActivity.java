@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     // variable for our adapter
     // class and array list
     private TagsDataAdapter adapter;// 成员变量。
-    public TagsDataAdapter xdsd;// 成员变量。
     private ArrayList<String> tagsArrayList;
 
     @Override
@@ -89,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             // at last we are passing that filtered
             // list to our adapter class.
-            adapter.filterList(result);
+            adapter.setDataList(result);
         }
     }
 
@@ -106,7 +105,8 @@ public class MainActivity extends AppCompatActivity {
         tagsArrayList = new ArrayList<>();
         tagsArrayList.addAll(data);
         // initializing our adapter class.
-        adapter = new TagsDataAdapter(getApplicationContext(), tagsArrayList);
+        adapter = new TagsDataAdapter(getApplicationContext());
+        adapter.setDataList(tagsArrayList);
         recyclerList.setAdapter(adapter);
     }
 
