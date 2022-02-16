@@ -26,7 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
     // variable for our adapter
     // class and array list
-    private TagsDataAdapter adapter;
+    private TagsDataAdapter adapter;// 成员变量。
+    public TagsDataAdapter xdsd;// 成员变量。
     private ArrayList<String> tagsArrayList;
 
     @Override
@@ -80,26 +81,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void filter(String text) {
-        // creating a new array list to filter our data.
-        ArrayList<String> filterList = new ArrayList<>();
-
-        // running a for loop to compare elements.
-        for (String item : tagsArrayList) {
-            // checking if the entered string matched with any item of our recycler view.
-            if (item.toLowerCase().contains(text.toLowerCase())) {
-                // if the item is matched we are
-                // adding it to our filtered list.
-                filterList.add(item);
-            }
-        }
-        if (filterList.isEmpty()) {
+        ArrayList<String> result = SearchUtil.getFilterList(text, tagsArrayList);
+        if (result.isEmpty()) {
             // if no item is added in filtered list we are
             // displaying a toast message as no data found.
             Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show();
         } else {
             // at last we are passing that filtered
             // list to our adapter class.
-            adapter.filterList(filterList);
+            adapter.filterList(result);
         }
     }
 
