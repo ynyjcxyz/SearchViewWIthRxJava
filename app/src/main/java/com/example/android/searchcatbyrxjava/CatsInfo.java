@@ -8,7 +8,6 @@ import java.util.List;
 
 @GenerateTypeAdapter
 @AutoValue
-
 public abstract class CatsInfo {
     @Nullable
     @SerializedName("id")

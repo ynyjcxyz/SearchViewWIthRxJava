@@ -36,7 +36,7 @@ public class CatListView extends AppCompatActivity {
 
     private void bindData() {
         CatsDataService
-                .getService(getIntent().getStringExtra("tag"))
+                .getCatsDto(getIntent().getStringExtra("tag"))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .as(autoDisposable(from(this)))
