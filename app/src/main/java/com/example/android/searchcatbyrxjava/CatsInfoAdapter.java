@@ -19,6 +19,10 @@ public class CatsInfoAdapter extends RecyclerView.Adapter<ViewHolderForCatsInfo>
         this.catsInfoArrayList = catsInfoArrayList;
     }
 
+    public void setInfoList(ArrayList<CatsInfo>AddInfoArrayList){
+        this.catsInfoArrayList = AddInfoArrayList;
+    }
+
     @NonNull
     @Override
     public ViewHolderForCatsInfo onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -49,6 +53,6 @@ public class CatsInfoAdapter extends RecyclerView.Adapter<ViewHolderForCatsInfo>
 
     @Override
     public int getItemCount() {
-        return catsInfoArrayList.size();
+        return catsInfoArrayList == null ? 0 : catsInfoArrayList.size();
     }
 }

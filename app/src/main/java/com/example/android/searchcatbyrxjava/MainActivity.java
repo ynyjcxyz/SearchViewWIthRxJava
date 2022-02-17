@@ -4,6 +4,7 @@ import static com.example.android.searchcatbyrxjava.TagsRepository.tagsService;
 import static com.uber.autodispose.AutoDispose.autoDisposable;
 import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,11 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 import java.util.List;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+
 public class MainActivity extends AppCompatActivity {
     // creating variables for
     // our ui components.
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     // variable for our adapter
     // class and array list
-    private TagsDataAdapter adapter;
+    private TagsDataAdapter adapter;  //成员变量
     private ArrayList<String> tagsArrayList;
 
     @Override
@@ -35,14 +36,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         setRecyclerView();
-
         bindData();
     }
 
     private void setRecyclerView() {
         recyclerList = findViewById(R.id.recyclerList);
-        recyclerList.setHasFixedSize(true);
+        new LinearLayoutManager(this).setOrientation(LinearLayoutManager.VERTICAL);
         recyclerList.setLayoutManager(new LinearLayoutManager(this));
+        recyclerList.setHasFixedSize(true);
+
+        adapter = new TagsDataAdapter(this,tagsArrayList);
+        recyclerList.setAdapter(adapter);
     }
 
     // calling on create option menu
@@ -111,13 +115,13 @@ public class MainActivity extends AppCompatActivity {
                 .subscribe(this::onSuccess, this::onError);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void onSuccess(List<String> data) {
         // below line we are creating a new array list
         tagsArrayList = new ArrayList<>();
         tagsArrayList.addAll(data);
-        // initializing our adapter class.
-        adapter = new TagsDataAdapter(getApplicationContext(), tagsArrayList);
-        recyclerList.setAdapter(adapter);
+        adapter.filterList(tagsArrayList);
+        adapter.notifyDataSetChanged();
     }
 
     private void onError(Throwable throwable) {

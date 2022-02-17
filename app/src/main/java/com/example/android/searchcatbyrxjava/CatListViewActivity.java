@@ -3,6 +3,7 @@ package com.example.android.searchcatbyrxjava;
 import static com.uber.autodispose.AutoDispose.autoDisposable;
 import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -16,7 +17,7 @@ import java.util.List;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class CatListView extends AppCompatActivity {
+public class CatListViewActivity extends AppCompatActivity {
     private RecyclerView catsInfoRecyclerView;
     private CatsInfoAdapter catsInfoAdapter;
     private ArrayList<CatsInfo> catsInfoArrayList;
@@ -27,27 +28,37 @@ public class CatListView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cat_list_view);
 
-        catsInfoRecyclerView = findViewById(R.id.cats_list);
-        catsInfoRecyclerView.setHasFixedSize(true);
-        catsInfoRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        setRecyclerView();
 
         bindData();
     }
 
+    private void setRecyclerView() {
+        catsInfoRecyclerView = findViewById(R.id.cats_list);
+        new LinearLayoutManager(this).setOrientation(LinearLayoutManager.VERTICAL);
+        catsInfoRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        catsInfoRecyclerView.setHasFixedSize(true);
+
+        catsInfoAdapter = new CatsInfoAdapter(this,catsInfoArrayList);
+        catsInfoRecyclerView.setAdapter(catsInfoAdapter);
+    }
+
     private void bindData() {
         CatsDataService
-                .getService(getIntent().getStringExtra("tag"))
+                .getCatsDto(getIntent().getStringExtra("tag"))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .as(autoDisposable(from(this)))
                 .subscribe(this::onSuccess,this::onError);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void onSuccess(List<CatsInfo> catsInfo) {
         catsInfoArrayList = new ArrayList<>();
         catsInfoArrayList.addAll(catsInfo);
-        catsInfoAdapter = new CatsInfoAdapter(getApplicationContext(),catsInfoArrayList);
-        catsInfoRecyclerView.setAdapter(catsInfoAdapter);
+
+        catsInfoAdapter.setInfoList(catsInfoArrayList);
+        catsInfoAdapter.notifyDataSetChanged();
     }
 
     private void onError(Throwable throwable) {

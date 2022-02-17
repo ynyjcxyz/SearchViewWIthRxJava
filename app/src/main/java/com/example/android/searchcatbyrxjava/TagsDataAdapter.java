@@ -1,23 +1,23 @@
 package com.example.android.searchcatbyrxjava;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 public class TagsDataAdapter extends RecyclerView.Adapter<ViewHolderForTags> {
-    private Context context;
+    private final AppCompatActivity context;
     // creating a variable for array list and context.
     private ArrayList<String> tagsArrayList;
 
     // creating a constructor for our variables.
-    public TagsDataAdapter(Context context, ArrayList<String> tagsArrayList) {
+    public TagsDataAdapter(AppCompatActivity context,ArrayList<String> tagsArrayList) {
         this.context = context;
         this.tagsArrayList = tagsArrayList;
     }
@@ -48,7 +48,7 @@ public class TagsDataAdapter extends RecyclerView.Adapter<ViewHolderForTags> {
         holder.catTags.setText("Tag: " + tagName);
 
         holder.parent_layout.setOnClickListener(view -> {
-            Intent intent = new Intent(context, CatListView.class);
+            Intent intent = new Intent(context, CatListViewActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);  //Important
             intent.putExtra("tag", tagName);
             context.startActivity(intent);
@@ -59,7 +59,7 @@ public class TagsDataAdapter extends RecyclerView.Adapter<ViewHolderForTags> {
     @Override
     public int getItemCount() {
         // returning the size of array list.
-        return tagsArrayList.size();
+        return tagsArrayList == null ? 0 : tagsArrayList.size();
     }
 
 }

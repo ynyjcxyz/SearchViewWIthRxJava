@@ -14,6 +14,7 @@ public class ViewHolderForTags extends RecyclerView.ViewHolder {
 
     public ViewHolderForTags(@NonNull View itemView) {
         super(itemView);
+        ViewHolderForTags viewHolderForTags = this;
         // initializing our views with their ids.
         catTags = itemView.findViewById(R.id.cat_tags);
         parent_layout = itemView.findViewById(R.id.parent_layout_tags);

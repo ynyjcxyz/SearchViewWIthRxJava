@@ -16,6 +16,7 @@ public class ViewHolderForCatsInfo extends RecyclerView.ViewHolder{
 
     public ViewHolderForCatsInfo(@NonNull View itemView) {
         super(itemView);
+        ViewHolderForCatsInfo viewHolderForTags = this;
         this.img = itemView.findViewById(R.id.img);
         this.date_time = itemView.findViewById(R.id.date_time);
         this.tags = itemView.findViewById(R.id.tags);
