@@ -1,7 +1,6 @@
 package com.example.android.searchcatbyrxjava;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class SearchUtil {
     static ArrayList<String> getFilterList(String filter, ArrayList<String>tagsArrayList){
